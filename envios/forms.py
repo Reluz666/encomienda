@@ -4,21 +4,22 @@ from .models import Empleado, Encomienda, HistorialEstado
 from config.choices import EstadoGeneral, EstadoEnvio
 
 
+# Formulario para registrar o editar empleados
 class EmpleadoModelForm(forms.ModelForm):
-    """Formulario para el modelo Empleado."""
 
     class Meta:
         model = Empleado
         fields = [
-            'codigo',
-            'nombres',
-            'apellidos',
-            'cargo',
-            'email',
-            'telefono',
-            'estado',
-            'fecha_ingreso',
+            'codigo',        # Codigo unico del empleado
+            'nombres',       # Nombres completos
+            'apellidos',     # Apellidos completos
+            'cargo',         # Cargo que desempe�a
+            'email',         # Correo electronico
+            'telefono',      # Numero de contacto
+            'estado',        # Activo o de baja
+            'fecha_ingreso',  # Fecha en que ingreso a laborar
         ]
+        # Estilos de Bootstrap para cada campo
         widgets = {
             'codigo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Codigo de empleado'}),
             'nombres': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombres'}),
@@ -30,6 +31,7 @@ class EmpleadoModelForm(forms.ModelForm):
             'fecha_ingreso': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
 
+    # Convertir el codigo a mayusculas automaticamente
     def clean_codigo(self):
         codigo = self.cleaned_data.get('codigo')
         if codigo:
@@ -37,25 +39,25 @@ class EmpleadoModelForm(forms.ModelForm):
         return codigo
 
 
+# Formulario para registrar o editar encomiendas
 class EncomiendaModelForm(forms.ModelForm):
-    """Formulario para el modelo Encomienda."""
 
     class Meta:
         model = Encomienda
         fields = [
-            'codigo',
-            'descripcion',
-            'peso_kg',
-            'volumen_cm3',
-            'remitente',
-            'destinatario',
-            'ruta',
-            'empleado_registro',
-            'estado',
-            'costo_envio',
-            'fecha_entrega_est',
-            'fecha_entrega_real',
-            'observaciones',
+            'codigo',              # Codigo unico de la encomienda
+            'descripcion',         # Descripcion del contenido
+            'peso_kg',            # Peso en kilogramos
+            'volumen_cm3',        # Volumen opcional
+            'remitente',           # Cliente que envia
+            'destinatario',        # Cliente que recibe
+            'ruta',                # Ruta de envio
+            'empleado_registro',   # Empleado que registra
+            'estado',              # Estado actual del envio
+            'costo_envio',         # Costo total del envio
+            'fecha_entrega_est',   # Fecha estimada de entrega
+            'fecha_entrega_real',  # Fecha real de entrega
+            'observaciones',      # Notas adicionales
         ]
         widgets = {
             'codigo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Codigo de encomienda'}),
@@ -73,6 +75,7 @@ class EncomiendaModelForm(forms.ModelForm):
             'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'placeholder': 'Observaciones'}),
         }
 
+    # Validacion: el remitente y destinatario no pueden ser la misma persona
     def clean(self):
         cleaned_data = super().clean()
         remitente = cleaned_data.get('remitente')
@@ -83,6 +86,7 @@ class EncomiendaModelForm(forms.ModelForm):
 
         return cleaned_data
 
+    # Convertir el codigo a mayusculas automaticamente
     def clean_codigo(self):
         codigo = self.cleaned_data.get('codigo')
         if codigo:
@@ -90,17 +94,17 @@ class EncomiendaModelForm(forms.ModelForm):
         return codigo
 
 
+# Formulario para registrar el historial de cambios de estado
 class HistorialEstadoModelForm(forms.ModelForm):
-    """Formulario para el modelo HistorialEstado."""
 
     class Meta:
         model = HistorialEstado
         fields = [
-            'encomienda',
-            'estado_anterior',
-            'estado_nuevo',
-            'observacion',
-            'empleado',
+            'encomienda',       # Encomienda que cambio de estado
+            'estado_anterior',   # Estado antes del cambio
+            'estado_nuevo',      # Nuevo estado
+            'observacion',       # Nota sobre el cambio
+            'empleado',          # Empleado que realizo el cambio
         ]
         widgets = {
             'encomienda': forms.Select(attrs={'class': 'form-control'}),
@@ -110,6 +114,7 @@ class HistorialEstadoModelForm(forms.ModelForm):
             'empleado': forms.Select(attrs={'class': 'form-control'}),
         }
 
+    # Validacion: el nuevo estado no puede ser igual al anterior
     def clean(self):
         cleaned_data = super().clean()
         estado_anterior = cleaned_data.get('estado_anterior')

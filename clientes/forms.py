@@ -3,21 +3,24 @@ from .models import Cliente
 from config.choices import TipoDocumento, EstadoGeneral
 
 
+# Formulario para crear y editar clientes
+# Utiliza ModelForm para mapear automaticamente los campos del modelo
 class ClienteModelForm(forms.ModelForm):
-    """Formulario para el modelo Cliente."""
 
     class Meta:
         model = Cliente
+        # Campos que se mostraran en el formulario
         fields = [
-            'tipo_doc',
-            'nro_doc',
-            'nombres',
-            'apellidos',
-            'telefono',
-            'email',
-            'direccion',
-            'estado',
+            'tipo_doc',    # Tipo de documento (DNI, RUC, Pasaporte)
+            'nro_doc',     # Numero de documento
+            'nombres',     # Nombres del cliente
+            'apellidos',   # Apellidos del cliente
+            'telefono',    # Telefono de contacto
+            'email',       # Correo electronico
+            'direccion',   # Direccion de vivienda
+            'estado',      # Estado del cliente (Activo/Baja)
         ]
+        # Estilos CSS para cada campo usando Bootstrap
         widgets = {
             'tipo_doc': forms.Select(attrs={'class': 'form-control'}),
             'nro_doc': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nro. de documento'}),
@@ -29,6 +32,8 @@ class ClienteModelForm(forms.ModelForm):
             'estado': forms.Select(attrs={'class': 'form-control'}),
         }
 
+    # Validacion personalizada para el numero de documento
+    # Verifica que el DNI tenga 8 digitos o el RUC 11 digitos
     def clean_nro_doc(self):
         nro_doc = self.cleaned_data.get('nro_doc')
         if nro_doc:
@@ -39,6 +44,8 @@ class ClienteModelForm(forms.ModelForm):
                 raise forms.ValidationError('El RUC debe tener 11 digitos.')
         return nro_doc
 
+    # Validacion para el correo electronico
+    # Verifica que no exista otro cliente con el mismo email
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email:

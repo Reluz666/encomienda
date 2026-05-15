@@ -5,21 +5,21 @@ from .forms import RutaModelForm
 from .models import Ruta
 
 
+# Vista para listar todas las rutas registradas
 class RutaListView(ListView):
-    """Vista generica para listar rutas."""
     model = Ruta
     template_name = 'rutas/list.html'
-    context_object_name = 'rutas'
-    paginate_by = 10
-    ordering = ['-id']
+    context_object_name = 'rutas'  # Variable para iterar en la plantilla
+    paginate_by = 10  # Mostrar 10 rutas por pagina
+    ordering = ['-id']  # Ordenar del mas reciente al mas antiguo
 
 
+# Vista para registrar una nueva ruta
 class RutaCreateView(CreateView):
-    """Vista generica para crear una nueva ruta."""
     model = Ruta
     form_class = RutaModelForm
     template_name = 'rutas/form.html'
-    success_url = reverse_lazy('rutas:ruta_list')
+    success_url = reverse_lazy('rutas:ruta_list')  # Redirigir despues de guardar
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,8 +28,8 @@ class RutaCreateView(CreateView):
         return context
 
 
+# Vista para editar una ruta existente
 class RutaUpdateView(UpdateView):
-    """Vista generica para actualizar una ruta existente."""
     model = Ruta
     form_class = RutaModelForm
     template_name = 'rutas/form.html'
@@ -42,9 +42,9 @@ class RutaUpdateView(UpdateView):
         return context
 
 
+# Vista para eliminar una ruta (confirmacion)
 class RutaDeleteView(DeleteView):
-    """Vista generica para eliminar una ruta."""
     model = Ruta
     template_name = 'rutas/confirm_delete.html'
     success_url = reverse_lazy('rutas:ruta_list')
-    context_object_name = 'ruta'
+    context_object_name = 'ruta'  # Nombre del objeto en la plantilla
