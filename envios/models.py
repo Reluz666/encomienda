@@ -1,4 +1,3 @@
-# envios/models.py
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
@@ -33,7 +32,6 @@ class Empleado(models.Model):
 
 
 class Encomienda(models.Model):
-   #Registro de QuerySet (esto se hace lo mismo en todos los models)
     objects = EncomiendaQuerySet.as_manager()
     # Identificación
     codigo      = models.CharField(
@@ -86,7 +84,7 @@ class Encomienda(models.Model):
     fecha_entrega_real = models.DateField(null=True, blank=True)
     observaciones      = models.TextField(blank=True, null=True)
 
-    # --- Propiedades ---
+    # Propiedades
     @property
     def esta_entregada(self):
         return self.estado == EstadoEnvio.ENTREGADO
@@ -112,7 +110,7 @@ class Encomienda(models.Model):
     def descripcion_corta(self):
         return self.descripcion[:50] + '...' if len(self.descripcion) > 50 else self.descripcion
 
-    # --- Validaciones cruzadas ---
+    # Validaciones cruzadas
     def clean(self):
         errors = {}
         if self.remitente_id and self.destinatario_id:
@@ -137,7 +135,7 @@ class Encomienda(models.Model):
         self.full_clean()
         super().save(*args, **kwargs)
 
-    # --- Métodos de negocio ---
+    # Metodos de negocio
     def cambiar_estado(self, nuevo_estado, empleado, observacion=''):
         if nuevo_estado == self.estado:
             raise ValueError(

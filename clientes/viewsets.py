@@ -1,4 +1,3 @@
-# clientes/viewsets.py
 from rest_framework import viewsets
 from .models import Cliente
 from .serializers import ClienteSerializer

@@ -1,4 +1,3 @@
-# envios/serializers.py
 from rest_framework import serializers
 from .models import Empleado, Encomienda, HistorialEstado
 from clientes.models import Cliente

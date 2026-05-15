@@ -1,8 +1,6 @@
-# envios/querysets.py
 from django.db import models
 
 class EncomiendaQuerySet(models.QuerySet):
-    # Filtros por estado
     def pendientes(self):
         return self.filter(estado='PE')
 
@@ -18,7 +16,6 @@ class EncomiendaQuerySet(models.QuerySet):
     def activas(self):
         return self.filter(estado__in=['PE', 'TR', 'DE'])
 
-    # Filtros compuestos
     def por_ruta(self, ruta):
         return self.filter(ruta=ruta)
 

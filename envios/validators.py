@@ -1,4 +1,3 @@
-# envios/validators.py
 from django.core.exceptions import ValidationError
 
 def validar_peso_positivo(value):

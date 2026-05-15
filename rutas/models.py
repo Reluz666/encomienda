@@ -1,4 +1,3 @@
-# rutas/models.py
 from django.db import models
 from config.choices import EstadoGeneral
 from envios.querysets import RutaQuerySet

@@ -1,4 +1,3 @@
-# envios/viewsets.py
 from rest_framework import viewsets
 from .models import Empleado, Encomienda, HistorialEstado
 from .serializers import EmpleadoSerializer, EncomiendaSerializer, HistorialEstadoSerializer

@@ -42,5 +42,7 @@ class ClienteModelForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email:
-            Cliente.objects.filter(email=email).exclude(pk=self.instance.pk)
+            existente = Cliente.objects.filter(email=email).exclude(pk=self.instance.pk).exists()
+            if existente:
+                raise forms.ValidationError('Este email ya esta registrado.')
         return email
