@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Rutas - Sistema de Encomiendas{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Rutas</h1>
+    <a href="{% url 'rutas:ruta_create' %}" class="btn btn-primary">Nueva Ruta</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if object_list %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Origen</th>
+                            <th>Destino</th>
+                            <th>Descripcion</th>
+                            <th>Precio Base</th>
+                            <th>Dias Entrega</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ruta in object_list %}
+                        <tr>
+                            <td>{{ ruta.codigo }}</td>
+                            <td>{{ ruta.origen }}</td>
+                            <td>{{ ruta.destino }}</td>
+                            <td>{{ ruta.descripcion|truncatechars:40|default:"-" }}</td>
+                            <td>S/{{ ruta.precio_base }}</td>
+                            <td>{{ ruta.dias_entrega }} dias</td>
+                            <td>
+                                <span class="badge {% if ruta.estado == 1 %}bg-success{% else %}bg-secondary{% endif %}">
+                                    {{ ruta.get_estado_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{% url 'rutas:ruta_update' ruta.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="{% url 'rutas:ruta_delete' ruta.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-muted mb-0">No hay rutas registradas.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Encomiendas - Sistema de Encomiendas{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Encomiendas</h1>
+    <a href="{% url 'envios:encomienda_create' %}" class="btn btn-primary">Nueva Encomienda</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if object_list %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Descripcion</th>
+                            <th>Peso (kg)</th>
+                            <th>Remitente</th>
+                            <th>Destinatario</th>
+                            <th>Ruta</th>
+                            <th>Costo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for encomienda in object_list %}
+                        <tr>
+                            <td>{{ encomienda.codigo }}</td>
+                            <td>{{ encomienda.descripcion_corta }}</td>
+                            <td>{{ encomienda.peso_kg }}</td>
+                            <td>{{ encomienda.remitente.nombre_completo }}</td>
+                            <td>{{ encomienda.destinatario.nombre_completo }}</td>
+                            <td>{{ encomienda.ruta.codigo }}</td>
+                            <td>S/{{ encomienda.costo_envio }}</td>
+                            <td>
+                                <span class="badge {% if encomienda.estado == 'EN' %}bg-success{% elif encomienda.estado == 'TR' %}bg-primary{% elif encomienda.estado == 'DV' %}bg-danger{% else %}bg-warning{% endif %}">
+                                    {{ encomienda.get_estado_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{% url 'envios:encomienda_update' encomienda.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="{% url 'envios:encomienda_delete' encomienda.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-muted mb-0">No hay encomiendas registradas.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

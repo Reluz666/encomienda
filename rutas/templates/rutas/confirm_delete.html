@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Ruta - Sistema de Encomiendas{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Confirmar Eliminacion</h5>
+            </div>
+            <div class="card-body">
+                <p>Esta seguro de eliminar la ruta:</p>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Codigo:</dt>
+                    <dd class="col-sm-8">{{ object.codigo }}</dd>
+                    <dt class="col-sm-4">Origen:</dt>
+                    <dd class="col-sm-8">{{ object.origen }}</dd>
+                    <dt class="col-sm-4">Destino:</dt>
+                    <dd class="col-sm-8">{{ object.destino }}</dd>
+                    <dt class="col-sm-4">Precio Base:</dt>
+                    <dd class="col-sm-8">S/{{ object.precio_base }}</dd>
+                </dl>
+                <hr>
+                <p class="text-danger mb-0"><strong>Esta accion no se puede deshacer.</strong></p>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2">
+                <a href="{% url 'rutas:ruta_list' %}" class="btn btn-secondary">Cancelar</a>
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

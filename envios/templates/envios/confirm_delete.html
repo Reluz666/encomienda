@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Encomienda - Sistema de Encomiendas{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Confirmar Eliminacion</h5>
+            </div>
+            <div class="card-body">
+                <p>Esta seguro de eliminar la encomienda:</p>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Codigo:</dt>
+                    <dd class="col-sm-8">{{ object.codigo }}</dd>
+                    <dt class="col-sm-4">Descripcion:</dt>
+                    <dd class="col-sm-8">{{ object.descripcion|truncatechars:50 }}</dd>
+                    <dt class="col-sm-4">Remitente:</dt>
+                    <dd class="col-sm-8">{{ object.remitente.nombre_completo }}</dd>
+                    <dt class="col-sm-4">Destinatario:</dt>
+                    <dd class="col-sm-8">{{ object.destinatario.nombre_completo }}</dd>
+                    <dt class="col-sm-4">Estado:</dt>
+                    <dd class="col-sm-8">{{ object.get_estado_display }}</dd>
+                </dl>
+                <hr>
+                <p class="text-danger mb-0"><strong>Esta accion no se puede deshacer.</strong></p>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2">
+                <a href="{% url 'envios:encomienda_list' %}" class="btn btn-secondary">Cancelar</a>
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

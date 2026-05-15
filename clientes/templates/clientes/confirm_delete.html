@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Cliente - Sistema de Encomiendas{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Confirmar Eliminacion</h5>
+            </div>
+            <div class="card-body">
+                <p>Esta seguro de eliminar al cliente:</p>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Documento:</dt>
+                    <dd class="col-sm-8">{{ object.tipo_doc }}-{{ object.nro_doc }}</dd>
+                    <dt class="col-sm-4">Nombre:</dt>
+                    <dd class="col-sm-8">{{ object.nombres }} {{ object.apellidos }}</dd>
+                    <dt class="col-sm-4">Email:</dt>
+                    <dd class="col-sm-8">{{ object.email|default:"-" }}</dd>
+                </dl>
+                <hr>
+                <p class="text-danger mb-0"><strong>Esta accion no se puede deshacer.</strong></p>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2">
+                <a href="{% url 'clientes:cliente_list' %}" class="btn btn-secondary">Cancelar</a>
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
